@@ -201,7 +201,7 @@ public class AnalizadorLexico {
                 continue;
             }
             // Operadores y símbolos de un solo carácter
-            if ("+-*/^#!<>(){};,".indexOf(actual) != -1) {
+            if ("+-*/^#!<>(){};,=".indexOf(actual) != -1) {
                 avanzar();
                 Token token = new Token(op, TokenType.OPERADOR, line, inicioCol);
                 tokens.add(token);
@@ -254,6 +254,7 @@ public class AnalizadorLexico {
         String codigo = "Entero i = 10;\n" +
                 "Real r = 3.14;\n" +
                 "// Esto es un comentario\n" +
+                "+  \n" +
                 "if(i >= 10){\n" +
                 "   EscribirLinea(\"Valor: \" + i);\n" +
                 "}\n";
