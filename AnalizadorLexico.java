@@ -200,6 +200,46 @@ public class AnalizadorLexico {
                 tokens.add(token);
                 continue;
             }
+
+            // Si se detecta un '+' o '-' y el token anterior es un '=', se analiza si es
+            // parte de un número
+            if ((actual == '+' || actual == '-') &&
+                    !tokens.isEmpty() &&
+                    tokens.get(tokens.size() - 1).lexema.equals("=") &&
+                    Character.isDigit(peek(1))) {
+                int inicioColSign = column;
+                char sign = actual;
+                avanzar(); // Consumir el signo
+                StringBuilder lexema = new StringBuilder();
+                // Para el caso de '+' simplemente se ignora, para '-' se conserva
+                if (sign == '-') {
+                    lexema.append(sign);
+                }
+                // Procesar dígitos
+                while (pos < input.length() && Character.isDigit(input.charAt(pos))) {
+                    lexema.append(input.charAt(pos));
+                    avanzar();
+                }
+                boolean esReal = false;
+                if (pos < input.length() && input.charAt(pos) == '.') {
+                    esReal = true;
+                    lexema.append('.');
+                    avanzar();
+                    while (pos < input.length() && Character.isDigit(input.charAt(pos))) {
+                        lexema.append(input.charAt(pos));
+                        avanzar();
+                    }
+                }
+                Token token;
+                if (esReal) {
+                    token = new Token(lexema.toString(), TokenType.REAL, line, inicioColSign);
+                } else {
+                    token = new Token(lexema.toString(), TokenType.ENTERO, line, inicioColSign);
+                }
+                tokens.add(token);
+                continue;
+            }
+
             // Operadores y símbolos de un solo carácter
             if ("+-*/^#!<>(){};,=".indexOf(actual) != -1) {
                 avanzar();
@@ -251,8 +291,8 @@ public class AnalizadorLexico {
 
     // Método main para pruebas
     public static void main(String[] args) {
-        String codigo = "Entero i = 10;\n" +
-                "Real r = 3.14;\n" +
+        String codigo = "Entero i = +10;\n" +
+                "Real r = -3.14;\n" +
                 "// Esto es un comentario\n" +
                 "+  \n" +
                 "if(i >= 10){\n" +
