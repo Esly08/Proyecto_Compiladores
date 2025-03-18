@@ -1,33 +1,19 @@
-// Token.java
-public class Token {
-    private TokenType type;
-    private String lexema;
-    private int linea;
-    
-    public Token(TokenType type, String lexema, int linea) {
-        this.type = type;
+public class Token { // Clase Token: almacena el lexema, el tipo, la línea y la columna
+
+    String lexema;
+    TokenType tipo;
+    int linea;
+    int columna;
+
+    public Token(String lexema, TokenType tipo, int linea, int columna) {
         this.lexema = lexema;
+        this.tipo = tipo;
         this.linea = linea;
+        this.columna = columna;
     }
-    
-    public TokenType getType() {
-        return type;
-    }
-    
-    public String getLexema() {
-        return lexema;
-    }
-    
-    public int getLinea() {
-        return linea;
-    }
-    
-    @Override
+
     public String toString() {
-        return "Token{" +
-                "type=" + type +
-                ", lexema='" + lexema + '\'' +
-                ", linea=" + linea +
-                '}';
+        return "Token(" + lexema + ", " + tipo + ", línea: " + linea + ", columna: " + columna + ")";
     }
+
 }
