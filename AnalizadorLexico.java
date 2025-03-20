@@ -291,7 +291,7 @@ public class AnalizadorLexico {
 
     // Método main para pruebas
     public static void main(String[] args) {
-        String codigo = "Entero i = +10;\n" +
+        String codigo = "Entero i = -10;\n" +
                 "Real r = -3.14;\n" +
                 "// Esto es un comentario\n" +
                 "+  \n" +
